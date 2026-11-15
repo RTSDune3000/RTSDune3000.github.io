@@ -1,4 +1,6 @@
 # Ticket 28: Implement Base Defense Turrets (`GunTurret` and `RocketTurret`) Auto-Fire (`GameState.step_turrets`)
+
+**Status:** RESOLVED
 **State:** closed
 **Labels:** dune3000
 

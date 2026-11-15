@@ -1,5 +1,7 @@
 # Ticket 026: Economic Trade System — Buy and Sell Spice at Market Prices
 
+**Status:** RESOLVED
+
 **State:** closed
 **Labels:** dune3000, economy, mechanics
 

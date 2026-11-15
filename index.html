@@ -338,6 +338,16 @@
         <option value="medium" selected>Medium (1200 Credits, Standard)</option>
         <option value="hard">Hard (600 Credits, 2 Ferocious Worms)</option>
       </select>
+      <span class="dune-hud-label">AI Profile:</span>
+      <select id="commander-profile-select" class="dune-header-select" onchange="selectCommanderProfile(this.value)">
+        <option value="MethodicalMentat" selected>Methodical Mentat (Balanced)</option>
+        <option value="AggressiveRaider">Aggressive Raider (Rush)</option>
+        <option value="EconomicTurtler">Economic Turtler (Fortify)</option>
+        <option value="aggressive">Aggressive</option>
+        <option value="economic">Economic</option>
+        <option value="turtle">Turtle</option>
+        <option value="balanced">Balanced</option>
+      </select>
       <button id="btn-toggle-select" class="dune-btn-prod btn-prod" onclick="toggleSelection()">Select: ON</button>
       <button id="btn-clear-select" class="dune-btn-prod btn-prod" onclick="clearSelection()">Deselect All</button>
       <button class="dune-btn-prod btn-prod dune-btn-special btn-special" onclick="restartMission()">Restart Mission</button>
@@ -368,6 +378,14 @@
     <div class="dune-hud-group">
       <span class="dune-hud-label">Condition:</span>
       <span id="hud-status" class="dune-hud-stat" style="color:#22c55e">Battle Active</span>
+    </div>
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Weather:</span>
+      <span id="hud-weather" class="dune-hud-stat" style="color:#f59e0b">Clear Skies</span>
+    </div>
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Seismic:</span>
+      <span id="hud-seismic" class="dune-hud-stat" style="color:#fb923c">Low Tremor</span>
     </div>
     <div class="dune-hud-group">
       <span class="dune-hud-label">Opponent:</span>
@@ -433,6 +451,7 @@
       <button id="btn-train-tank" class="dune-btn-prod btn-prod" onclick="trainUnit('CombatTank', 300)" data-req="HeavyFactory">Combat Tank (300)</button>
       <button id="btn-train-siege" class="dune-btn-prod btn-prod" onclick="trainUnit('SiegeTank', 450)" data-req="HeavyFactory,Outpost">Siege Howitzer Tank (450)</button>
       <button id="btn-train-missile" class="dune-btn-prod btn-prod" onclick="trainUnit('MissileTank', 400)" data-req="HeavyFactory,Outpost">Missile Tank (400)</button>
+      <button id="btn-train-deviator" class="dune-btn-prod btn-prod dune-btn-special btn-special" onclick="trainUnit('Deviator', 420)" data-req="HeavyFactory,Outpost">Ordos Deviator Gas Tank (420)</button>
       <button id="btn-train-sonic" class="dune-btn-prod btn-prod dune-btn-special btn-special" onclick="trainUnit('SonicTank', 600)" data-req="Palace">Atreides Sonic Tank (600)</button>
     </div>
 
@@ -447,6 +466,7 @@
     <!-- TAB: SPECIAL & STARPORT -->
     <div id="tab-special" class="dune-tab-content tab-content">
       <button id="btn-starport-order" class="dune-btn-prod btn-prod" onclick="orderStarportUnit()" data-req="Starport">Order CHOAM Market Shipment</button>
+      <button id="btn-deploy-thumper" class="dune-btn-prod btn-prod" onclick="deployThumper()" data-req="Barracks">Deploy Seismic Thumper (100)</button>
       <button id="btn-fire-deathhand" class="dune-btn-prod btn-prod dune-btn-special btn-special" onclick="setMode('DeathHand')" data-req="Palace">Fire Palace Death Hand Strike</button>
       <button id="btn-sell-mode" class="dune-btn-prod btn-prod" onclick="setMode('sell')">Sell Structure (50% Refund)</button>
     </div>
@@ -457,6 +477,7 @@
       <button id="btn-step-tick" class="dune-btn-prod btn-prod" onclick="stepTick()">Step Tick</button>
       <button id="btn-autoplay" class="dune-btn-prod btn-prod" onclick="cycleAutoplayMode()">Auto-Play: OFF</button>
       <button id="btn-ai-profile" class="dune-btn-prod btn-prod" onclick="cycleAiCommanderProfile()">Doctrine: Methodical Mentat</button>
+      <button id="btn-spawn-sandstorm" class="dune-btn-prod btn-prod" onclick="spawn_weather_front()">Trigger Coriolis Sandstorm</button>
       <button id="btn-gpu" class="dune-btn-prod btn-prod dune-btn-special btn-special" onclick="toggleGpuMode()" title="Harkonnen commander driven by local GPU LLM; fallback to Script AI if busy">Play against GPU: OFF</button>
       <button id="btn-sound" class="dune-btn-prod btn-prod" onclick="toggleSound()">Sound: ON</button>
     </div>
@@ -882,9 +903,151 @@
     let units = [];
     let carryalls = [];
     let sandworms = [];
+    let thumpers = [];
+    let weatherFronts = [];
     let particles = [];
     let floatingTexts = [];
     let projectiles = []; // Physical Guided Rockets & Missiles
+
+    class WeatherFront {
+      constructor(x, y, vx, vy, radius = 5.5, duration = 26.0, intensity = 1.0) {
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.radius = radius;
+        this.duration = duration;
+        this.maxDuration = duration;
+        this.intensity = intensity;
+        this.swirlPhase = Math.random() * Math.PI * 2;
+      }
+    }
+
+    function spawn_weather_front() {
+      const startX = 12 + Math.random() * (W - 24);
+      const startY = 6 + Math.random() * (H - 12);
+      const angle = Math.random() * Math.PI * 2;
+      const spd = 0.65 + Math.random() * 0.45;
+      const front = new WeatherFront(
+        startX, startY,
+        Math.cos(angle) * spd, Math.sin(angle) * spd,
+        5.2 + Math.random() * 1.8,
+        24.0 + Math.random() * 10.0,
+        1.0
+      );
+      weatherFronts.push(front);
+      logMsg(`CORIOLIS STORM WARNING: High-velocity sandstorm front formed in sector (${Math.round(startX)}, ${Math.round(startY)})!`, 'worm');
+      updateUI();
+      return front;
+    }
+
+    function apply_sandstorm(u, dt) {
+      if (!u || u.hp <= 0 || u.airlifted) return 1.0;
+      let speedMult = 1.0;
+      for (const wf of weatherFronts) {
+        const d = Math.hypot(u.x - wf.x, u.y - wf.y);
+        if (d <= wf.radius) {
+          speedMult = Math.min(speedMult, u.isAir ? 0.55 : 0.62);
+          u.inSandstorm = true;
+          // Coriolis sand abrasion on exposed ground/air units on open sand
+          const gx = Math.floor(u.x), gy = Math.floor(u.y);
+          const tile = (tiles[gy] && tiles[gy][gx]) || 'SAND';
+          if (tile !== 'ROCK' && tile !== 'CONCRETE' && Math.random() < dt * 0.65) {
+            u.hp = Math.max(1, u.hp - 1);
+          }
+        }
+      }
+      return speedMult;
+    }
+
+    function step_weather_fronts(dt) {
+      units.forEach(u => { u.inSandstorm = false; });
+      for (let i = weatherFronts.length - 1; i >= 0; i--) {
+        const wf = weatherFronts[i];
+        wf.duration -= dt;
+        wf.swirlPhase += dt * 2.8;
+        wf.x += wf.vx * dt;
+        wf.y += wf.vy * dt;
+        if (wf.x < 6 || wf.x > W - 6) wf.vx *= -1;
+        if (wf.y < 5 || wf.y > H - 5) wf.vy *= -1;
+        if (wf.duration <= 0) {
+          weatherFronts.splice(i, 1);
+          logMsg(`Coriolis sandstorm front dissipated over deep desert.`, 'sys');
+        }
+      }
+      if (weatherFronts.length === 0 && Math.random() < dt * 0.018) {
+        spawn_weather_front();
+      }
+    }
+
+    function deployThumper(house = 'Atreides') {
+      initAudio();
+      if ((credits[house] || 0) < 100) {
+        if (house === 'Atreides') {
+          playSound('error');
+          logMsg(`Insufficient credits for Seismic Thumper (100 required).`, 'economy');
+        }
+        return;
+      }
+      credits[house] -= 100;
+      const sel = selectedUnit && selectedUnit.house === house ? selectedUnit : null;
+      const tx = sel ? sel.x : (house === 'Atreides' ? 16.5 + (Math.random() - 0.5) * 4 : W - 16.5 + (Math.random() - 0.5) * 4);
+      const ty = sel ? sel.y : (house === 'Atreides' ? 14.5 + (Math.random() - 0.5) * 4 : H - 14.5 + (Math.random() - 0.5) * 4);
+      thumpers.push({ x: tx, y: ty, house: house, duration: 28.0, pulsePhase: 0 });
+      playSound('sonic');
+      addSonicWave(tx * TILE, ty * TILE, 42);
+      addFloatingText('THUMPER ACTIVE', tx * TILE, ty * TILE - 12, '#38bdf8');
+      logMsg(`${house} deployed rhythmic Seismic Thumper at (${tx.toFixed(1)}, ${ty.toFixed(1)}) to lure Shai-Hulud!`, 'worm');
+      updateUI();
+    }
+
+    function step_sandworm_ambush(dt) {
+      // Update active seismic thumpers
+      for (let i = thumpers.length - 1; i >= 0; i--) {
+        const th = thumpers[i];
+        th.duration -= dt;
+        th.pulsePhase += dt * 5.0;
+        if (Math.random() < dt * 0.8) {
+          addSonicWave(th.x * TILE, th.y * TILE, 26);
+        }
+        if (th.duration <= 0) {
+          thumpers.splice(i, 1);
+        }
+      }
+
+      // Check subterranean ambush strike when submerged/dormant worm is drawn by thumper or heavy spice vibration
+      sandworms.forEach(w => {
+        if (thumpers.length > 0) {
+          const nearestThumper = thumpers[0];
+          w.tx = nearestThumper.x;
+          w.ty = nearestThumper.y;
+          if (w.submerged && Math.hypot(w.x - nearestThumper.x, w.y - nearestThumper.y) < 3.5) {
+            w.submerged = false;
+            w.dormant = false;
+            w.stamina = 100;
+            playSound('worm');
+            addExplosion(w.x * TILE, w.y * TILE, 34);
+            addFloatingText('SANDWORM AMBUSH!', w.x * TILE, w.y * TILE - 18, '#fb923c');
+            logMsg(`SANDWORM AMBUSH: Shai-Hulud breached beneath Seismic Thumper at (${Math.round(w.x)}, ${Math.round(w.y)})!`, 'worm');
+          }
+        } else if (w.submerged && Math.random() < dt * 0.08) {
+          // Ambush noisy ground unit on spice/deep sand
+          const noisyPrey = units.find(u => u.hp > 0 && !u.isAir && !u.airlifted && u.house !== 'Fremen' && !u.immuneWorm &&
+            tiles[Math.floor(u.y)] && (tiles[Math.floor(u.y)][Math.floor(u.x)] === 'SPICE_THICK' || tiles[Math.floor(u.y)][Math.floor(u.x)] === 'SPICE_THIN'));
+          if (noisyPrey) {
+            w.x = noisyPrey.x + (Math.random() - 0.5) * 2.2;
+            w.y = noisyPrey.y + (Math.random() - 0.5) * 2.2;
+            w.submerged = false;
+            w.dormant = false;
+            w.stamina = 100;
+            playSound('worm');
+            addExplosion(w.x * TILE, w.y * TILE, 32);
+            addFloatingText('SUBTERRANEAN AMBUSH!', w.x * TILE, w.y * TILE - 16, '#fb923c');
+            logMsg(`SEISMIC AMBUSH: Shai-Hulud erupted beneath ${noisyPrey.house} ${noisyPrey.type} in the spice basin!`, 'worm');
+          }
+        }
+      });
+    }
 
     generateSeamlessTextures();
 
@@ -959,6 +1122,10 @@
       selectedUnit = null;
       selectedBuilding = null;
       particles = [];
+      thumpers = [];
+      weatherFronts = [
+        new WeatherFront(27.0, 15.0, 0.55, -0.32, 5.2, 30.0, 1.0)
+      ];
 
       // Fully-Built Bases with all Dune 2000 structures already constructed on Concrete
       buildings = [
@@ -1051,7 +1218,9 @@
         // --- Harkonnen Aerial Fleet ---
         { type: 'Gunship', house: 'Harkonnen', x: W - 8.0, y: H - 6.0, tx: W - 16.0, ty: 12.0, hp: 160, maxHp: 160, spice: 0, maxSpice: 0, dmg: 35, range: 4.5, angle: Math.PI, turretAngle: Math.PI, speed: 3.5, turnSpeed: 3.8, repairing: false, airlifted: false, isAir: true, orbitAngle: 1.0, wingPhase: 0, wormPanic: false, retreatWarning: false, lastAttacker: null },
         { type: 'Bomber', house: 'Harkonnen', x: W - 6.0, y: H - 4.0, tx: W - 18.0, ty: 12.0, hp: 200, maxHp: 200, spice: 0, maxSpice: 0, dmg: 60, range: 4.0, angle: Math.PI, turretAngle: Math.PI, speed: 3.8, turnSpeed: 3.2, repairing: false, airlifted: false, isAir: true, orbitAngle: 2.5, wingPhase: 0, wormPanic: false, retreatWarning: false, lastAttacker: null },
-        // Elite Imperial Sardaukar & Specialized Modern Infantry
+        // Elite Imperial Sardaukar, Ordos Deviator Gas Tank & Specialized Modern Infantry
+        { type: 'Deviator', house: 'Atreides', x: 11.5, y: 8.5, tx: 17.5, ty: 13.5, hp: 125, maxHp: 125, spice: 0, maxSpice: 0, dmg: 18, range: 5.5, speed: 1.45, turnSpeed: 3.0, angle: 0, turretAngle: 0, isAir: false, orbitAngle: 0, wingPhase: 0, repairing: false, airlifted: false, wormPanic: false, retreatWarning: false, lastAttacker: null },
+        { type: 'Deviator', house: 'Harkonnen', x: W - 11.5, y: H - 8.5, tx: W - 17.5, ty: H - 13.5, hp: 125, maxHp: 125, spice: 0, maxSpice: 0, dmg: 18, range: 5.5, speed: 1.45, turnSpeed: 3.0, angle: Math.PI, turretAngle: Math.PI, isAir: false, orbitAngle: 0, wingPhase: 0, repairing: false, airlifted: false, wormPanic: false, retreatWarning: false, lastAttacker: null },
         { type: 'Sardaukar', house: 'Harkonnen', x: W - 10.5, y: H - 7.5, tx: W - 13.5, ty: H - 7.5, hp: 220, maxHp: 220, dmg: 32, range: 3.8, speed: 1.8, turnSpeed: 3.2, angle: Math.PI, turretAngle: Math.PI, isAir: false, orbitAngle: 0, wingPhase: 0, repairing: false, airlifted: false, wormPanic: false, retreatWarning: false, lastAttacker: null },
         { type: 'RocketTrooper', house: 'Atreides', x: 7.5, y: 4.5, tx: 10.5, ty: 4.5, hp: 90, maxHp: 90, dmg: 35, range: 5.5, speed: 1.3, turnSpeed: 3.2, angle: 0, turretAngle: 0, isAir: false, orbitAngle: 0, wingPhase: 0, repairing: false, airlifted: false, wormPanic: false, retreatWarning: false, lastAttacker: null },
         { type: 'Engineer', house: 'Atreides', x: 6.5, y: 3.5, tx: 8.5, ty: 3.5, hp: 50, maxHp: 50, dmg: 0, range: 1.0, speed: 1.2, turnSpeed: 3.2, angle: 0, turretAngle: 0, isAir: false, orbitAngle: 0, wingPhase: 0, repairing: false, airlifted: false, wormPanic: false, retreatWarning: false, lastAttacker: null },
@@ -1500,7 +1669,7 @@
       });
     }
 
-    function spawnRocket(startX, startY, targetX, targetY, targetEntity, dmg, house, color = '#f97316', isAntiAir = false) {
+    function spawnRocket(startX, startY, targetX, targetY, targetEntity, dmg, house, color = '#f97316', isAntiAir = false, isDeviatorGas = false) {
       projectiles.push({
         x: startX,
         y: startY,
@@ -1513,6 +1682,7 @@
         angle: Math.atan2(targetY - startY, targetX - startX),
         color: color,
         isAntiAir: isAntiAir,
+        isDeviatorGas: isDeviatorGas,
         life: 0,
         maxLife: 3.5,
         smokeTimer: 0
@@ -1608,6 +1778,7 @@
       const isQuad = unitType === 'Quad';
       const isSiege = unitType === 'SiegeTank';
       const isMissile = unitType === 'MissileTank';
+      const isDeviator = unitType === 'Deviator';
       const isSonic = unitType === 'SonicTank';
       const isInf = unitType === 'LightInfantry';
       const isEng = unitType === 'Engineer';
@@ -1633,6 +1804,7 @@
       else if (isTank) { hp = 150; dmg = 28; rng = 4.0; spd = 1.6; }
       else if (isSiege) { hp = 130; dmg = 50; rng = 6.5; spd = 1.0; }
       else if (isMissile) { hp = 110; dmg = 40; rng = 5.8; spd = 1.4; }
+      else if (isDeviator) { hp = 125; dmg = 18; rng = 5.5; spd = 1.45; }
       else if (isSonic) { hp = 160; dmg = 38; rng = 4.5; spd = 1.3; }
       else if (isHarv) { hp = 120; dmg = 5; rng = 1.5; spd = 1.1; }
       else if (isOrni) { hp = 120; dmg = 25; rng = 4.5; spd = 4.2; }
@@ -1995,7 +2167,7 @@
       requestAnimationFrame(gameLoop);
     }
 
-    /* Atmospheric Desert Heat Shimmer and Wind Dust Streaks */
+    /* Atmospheric Desert Heat Shimmer, Wind Dust Streaks & Coriolis Sandstorm Fronts */
     function renderAtmosphere(animTime) {
       const windPhase = (animTime * 0.0006) % 1.0;
       ctx.save();
@@ -2009,6 +2181,42 @@
         ctx.lineTo(0, yOff + 30);
         ctx.fill();
       }
+
+      // Render active Seismic Thumpers
+      thumpers.forEach(th => {
+        const tx = th.x * TILE, ty = th.y * TILE;
+        const pulse = (animTime * 0.025) % 24;
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.65)';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.arc(tx, ty, 6 + pulse, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(tx - 3, ty - 5, 6, 10);
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillRect(tx - 2, ty - 4 + Math.sin(th.pulsePhase) * 2, 4, 4);
+      });
+
+      // Render active Coriolis Sandstorm Weather Fronts
+      weatherFronts.forEach(wf => {
+        const cx = wf.x * TILE, cy = wf.y * TILE, rad = wf.radius * TILE;
+        const grad = ctx.createRadialGradient(cx, cy, rad * 0.15, cx, cy, rad);
+        grad.addColorStop(0, 'rgba(217, 119, 6, 0.36)');
+        grad.addColorStop(0.65, 'rgba(180, 83, 9, 0.22)');
+        grad.addColorStop(1, 'rgba(180, 83, 9, 0.0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(253, 224, 71, 0.28)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 6]);
+        ctx.beginPath();
+        ctx.arc(cx, cy, rad * 0.78, wf.swirlPhase, wf.swirlPhase + Math.PI * 1.4);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
       ctx.restore();
     }
 
@@ -2132,17 +2340,41 @@
         description: 'Spice economy expansion, fortified defenses, and heavy harvester protection.'
       }
     ];
+    const COMMANDER_PROFILES = {
+      MethodicalMentat: AI_COMMANDER_PROFILES[0],
+      AggressiveRaider: AI_COMMANDER_PROFILES[1],
+      EconomicTurtler: AI_COMMANDER_PROFILES[2],
+      balanced: AI_COMMANDER_PROFILES[0],
+      aggressive: AI_COMMANDER_PROFILES[1],
+      economic: AI_COMMANDER_PROFILES[2],
+      turtle: AI_COMMANDER_PROFILES[2]
+    };
     let currentAiProfileIndex = 0;
 
-    function cycleAiCommanderProfile() {
-      currentAiProfileIndex = (currentAiProfileIndex + 1) % AI_COMMANDER_PROFILES.length;
+    function selectCommanderProfile(profileKey) {
+      const mapped = COMMANDER_PROFILES[profileKey] || AI_COMMANDER_PROFILES[0];
+      const idx = AI_COMMANDER_PROFILES.indexOf(mapped);
+      currentAiProfileIndex = idx >= 0 ? idx : 0;
       const profile = AI_COMMANDER_PROFILES[currentAiProfileIndex];
       const btn = document.getElementById('btn-ai-profile');
       if (btn) btn.textContent = `Doctrine: ${profile.name}`;
       const docLabel = document.getElementById('hud-doctrine');
       if (docLabel) docLabel.textContent = profile.name;
-      logMsg(`Tactical Doctrine updated to: ${profile.name}. ${profile.description}`, 'sys');
+      const sel = document.getElementById('commander-profile-select');
+      if (sel && sel.value !== profileKey) sel.value = profileKey;
+      logMsg(`Tactical Doctrine selected: ${profile.name} (${profileKey}). ${profile.description}`, 'sys');
       playSound('click');
+    }
+
+    function cycleAiCommanderProfile() {
+      currentAiProfileIndex = (currentAiProfileIndex + 1) % AI_COMMANDER_PROFILES.length;
+      const profile = AI_COMMANDER_PROFILES[currentAiProfileIndex];
+      const keyMap = ['MethodicalMentat', 'AggressiveRaider', 'EconomicTurtler'];
+      selectCommanderProfile(keyMap[currentAiProfileIndex] || 'MethodicalMentat');
+    }
+
+    function step_ai_commander(house) {
+      return stepAiCommander(house);
     }
 
     function getPriorityTarget(u, candidates, bias = 'threat') {
@@ -2410,9 +2642,28 @@
        UNIT MOVEMENT, CIRCLING AVIATION, TANK MEDEVAC & COMBAT
        ========================================================================= */
     function updateGame(dt) {
+      // 0. Dynamic Weather Fronts (Coriolis Sandstorms) & Subterranean Sandworm Ambush / Thumpers
+      step_weather_fronts(dt);
+      step_sandworm_ambush(dt);
+
       // 1. Units Movement & Aviation Kinematics
       units.forEach(u => {
         if (u.airlifted || u.hp <= 0) return;
+
+        // Ordos Deviator Nerve-Gas Allegiance Timer Expiration
+        if (u.deviatedTimer && u.deviatedTimer > 0) {
+          u.deviatedTimer -= dt;
+          if (u.deviatedTimer <= 0 && u.originalHouse) {
+            const revertedHouse = u.originalHouse;
+            u.house = revertedHouse;
+            u.originalHouse = null;
+            u.deviatedTimer = 0;
+            addFloatingText('ALLEGIANCE RESTORED', u.x * TILE, u.y * TILE - 12, '#38bdf8');
+            logMsg(`${revertedHouse} ${u.type} shook off Ordos nerve gas and restored original allegiance!`, 'sys');
+          }
+        }
+
+        const stormSpeedMult = apply_sandstorm(u, dt);
 
         // Ground Unit Tactical Retreat & Self-Repair Decision
         if (!u.isAir && !u.repairing && !u.wormPanic) {
@@ -2583,7 +2834,7 @@
               u.turretAngle = u.angle;
             }
 
-            const moveStep = Math.min(dist, u.speed * dt);
+            const moveStep = Math.min(dist, u.speed * stormSpeedMult * dt);
             u.x = Math.max(0.4, Math.min(W - 0.4, u.x + Math.cos(u.angle) * moveStep));
             u.y = Math.max(0.4, Math.min(H - 0.4, u.y + Math.sin(u.angle) * moveStep));
 
@@ -2607,6 +2858,10 @@
             } else if (u.type === 'SonicTank') {
               playSound('sonic');
               addSonicWave(u.x * TILE, u.y * TILE, 36);
+            } else if (u.type === 'Deviator') {
+              // Ordos Deviator Nerve-Gas Warhead: converts target vehicle/unit allegiance temporarily
+              playSound('rocket');
+              spawnRocket(u.x, u.y, enemy.x, enemy.y, enemy, u.dmg, u.house, '#10b981', false, true);
             } else if (u.type === 'MissileTank' || u.type === 'RocketTrooper') {
               // Real physical rocket projectile with smoke trail
               playSound('rocket');
@@ -3463,16 +3718,16 @@
           ctx.translate(cx, cy);
           ctx.rotate(u.angle || 0);
 
-          if (u.type === 'CombatTank' || u.type === 'SiegeTank' || u.type === 'MissileTank') {
+          if (u.type === 'CombatTank' || u.type === 'SiegeTank' || u.type === 'MissileTank' || u.type === 'Deviator') {
             // Heavy treads
             ctx.fillStyle = '#1e293b';
             ctx.fillRect(-11, -8, 22, 4);
             ctx.fillRect(-11, 4, 22, 4);
 
             // Armored chassis
-            ctx.fillStyle = col.main;
+            ctx.fillStyle = u.type === 'Deviator' ? '#047857' : col.main;
             ctx.fillRect(-7, -4, 14, 8);
-            ctx.fillStyle = col.dark;
+            ctx.fillStyle = u.type === 'Deviator' ? '#10b981' : col.dark;
             ctx.fillRect(-9, -3, 3, 6);
 
             // Independent rotating turret
@@ -3480,7 +3735,7 @@
             const relTurretAngle = (u.turretAngle !== undefined ? u.turretAngle : u.angle) - (u.angle || 0);
             ctx.rotate(relTurretAngle);
 
-            ctx.fillStyle = col.light;
+            ctx.fillStyle = u.type === 'Deviator' ? '#34d399' : col.light;
             ctx.beginPath();
             ctx.arc(0, 0, 4, 0, Math.PI * 2);
             ctx.fill();
@@ -3491,6 +3746,14 @@
               ctx.beginPath();
               ctx.moveTo(2, 0); ctx.lineTo(14, 0);
               ctx.stroke();
+            } else if (u.type === 'Deviator') {
+              // Ordos Deviator pressurized nerve-gas warhead canisters
+              ctx.fillStyle = '#10b981';
+              ctx.fillRect(0, -3.5, 9, 3);
+              ctx.fillRect(0, 0.5, 9, 3);
+              ctx.fillStyle = '#a7f3d0';
+              ctx.fillRect(7, -3, 2, 2);
+              ctx.fillRect(7, 1, 2, 2);
             } else if (u.type === 'MissileTank') {
               ctx.fillStyle = '#f97316';
               ctx.fillRect(0, -3, 8, 2.5);
@@ -3663,6 +3926,14 @@
           }
 
           ctx.restore();
+        }
+
+        if (u.deviatedTimer && u.deviatedTimer > 0) {
+          ctx.strokeStyle = '#10b981';
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.arc(cx, cy, 11, 0, Math.PI * 2);
+          ctx.stroke();
         }
 
         // Squad Selection ring
@@ -3906,6 +4177,15 @@
           if (p.target && p.target.hp > 0) {
             p.target.hp = Math.max(0, p.target.hp - p.dmg);
             addFloatingText(`-${p.dmg}`, p.target.x * TILE, p.target.y * TILE - 12, '#ef4444');
+            if (p.isDeviatorGas && p.target.hp > 0 && p.target.house !== 'Fremen') {
+              const prevHouse = p.target.house;
+              p.target.originalHouse = p.target.originalHouse || prevHouse;
+              p.target.house = p.house;
+              p.target.deviatedTimer = 14.0;
+              addPlasmaBurst(p.target.x * TILE, p.target.y * TILE, '#10b981');
+              addFloatingText('GAS DEVIATED!', p.target.x * TILE, p.target.y * TILE - 22, '#10b981');
+              logMsg(`ORDOS DEVIATOR NERVE GAS: ${prevHouse} ${p.target.type} temporarily converted to ${p.house} control!`, 'combat');
+            }
           }
           addExplosion(p.tx * TILE, p.ty * TILE, p.isAntiAir ? 28 : 22);
           playSound('rocket');
@@ -4108,6 +4388,33 @@
       const aliveUnits = units.filter(u => u.house === 'Atreides' && u.hp > 0).length;
       const aliveBldgs = buildings.filter(b => b.house === 'Atreides' && b.hp > 0).length;
       document.getElementById('hud-units').textContent = `${aliveUnits} Units | ${aliveBldgs} Structures`;
+
+      const weatherEl = document.getElementById('hud-weather');
+      if (weatherEl) {
+        if (weatherFronts.length > 0) {
+          const wf = weatherFronts[0];
+          weatherEl.textContent = `Coriolis Storm (${Math.round(wf.x)},${Math.round(wf.y)})`;
+          weatherEl.style.color = '#ef4444';
+        } else {
+          weatherEl.textContent = 'Clear Skies';
+          weatherEl.style.color = '#f59e0b';
+        }
+      }
+
+      const seismicEl = document.getElementById('hud-seismic');
+      if (seismicEl) {
+        const activeWorm = sandworms.find(w => !w.submerged && !w.dormant && w.hp > 0);
+        if (thumpers.length > 0) {
+          seismicEl.textContent = `Thumper Lure (${thumpers.length})`;
+          seismicEl.style.color = '#38bdf8';
+        } else if (activeWorm) {
+          seismicEl.textContent = `Worm Sign (${Math.round(activeWorm.x)},${Math.round(activeWorm.y)})`;
+          seismicEl.style.color = '#ef4444';
+        } else {
+          seismicEl.textContent = 'Subterranean Calm';
+          seismicEl.style.color = '#fb923c';
+        }
+      }
 
       updatePrerequisiteButtons();
       updateAdvisorAndHighlights();

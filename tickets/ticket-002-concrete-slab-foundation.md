@@ -1,5 +1,7 @@
 # Ticket 2: Implement Concrete Slab Foundation Penalty on Building Placement
 
+**Status:** RESOLVED
+
 - **State:** closed
 - **Labels:** feature, engine
 

@@ -1,4 +1,6 @@
 # Ticket 32: Implement Sell Structure for Proportional Credit Refund (`GameState.sell_building`)
+
+**Status:** RESOLVED
 **State:** closed
 **Labels:** dune3000
 

@@ -1,5 +1,7 @@
 # Ticket 12: Implement Simulation Tick Step (`GameState.step_tick`)
 
+**Status:** RESOLVED
+
 **State:** closed
 **Priority:** high
 

@@ -1,5 +1,7 @@
 # Ticket 1: Implement WindTrap Power Efficiency Ratio in `GameState`
 
+**Status:** RESOLVED
+
 - **State:** closed
 - **Labels:** feature, engine
 

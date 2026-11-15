@@ -1,5 +1,7 @@
 # Ticket 9: Implement Sandworm Hunting Step and Unit Devouring (`Sandworm.step`)
 
+**Status:** RESOLVED
+
 **State:** closed
 **Priority:** high
 

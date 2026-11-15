@@ -1,4 +1,6 @@
 # Ticket 30: Implement Infantry Engineer Building Capture (`GameState.capture_building`)
+
+**Status:** RESOLVED
 **State:** closed
 **Labels:** dune3000
 

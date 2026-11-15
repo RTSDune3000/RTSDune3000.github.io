@@ -1,4 +1,6 @@
 # Ticket 27: Implement Palace Superweapon Death Hand Missile Strike (`GameState.fire_death_hand`)
+
+**Status:** RESOLVED
 **State:** closed
 **Labels:** dune3000
 

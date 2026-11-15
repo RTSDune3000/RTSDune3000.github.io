@@ -1,5 +1,7 @@
 # Ticket 13: Implement Victory and Defeat Condition Check (`GameState.check_winner`)
 
+**Status:** RESOLVED
+
 **State:** closed
 **Priority:** high
 

@@ -1,5 +1,7 @@
 # Ticket 20: Implement House Special Units (`SonicTank`, `Devastator`, `Deviator`)
 
+**Status:** RESOLVED
+
 **State:** closed
 **Labels:** dune3000, gameplay, combat
 

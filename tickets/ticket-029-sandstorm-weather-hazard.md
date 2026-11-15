@@ -1,4 +1,6 @@
 # Ticket 29: Implement Arrakis Coriolis Sandstorm Weather Hazard (`GameState.apply_sandstorm`)
+
+**Status:** RESOLVED
 **State:** closed
 **Labels:** dune3000
 

@@ -1,5 +1,7 @@
 # Ticket 10: Implement Unit Production Catalog and `GameState.train_unit`
 
+**Status:** RESOLVED
+
 **State:** closed
 **Priority:** high
 

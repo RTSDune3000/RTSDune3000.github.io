@@ -1,5 +1,7 @@
 # Ticket 21: Implement Spice Bloom Detonation (`GameState.detonate_spice_bloom`)
 
+**Status:** RESOLVED
+
 **State:** closed
 **Labels:** dune3000, gameplay, terrain
 

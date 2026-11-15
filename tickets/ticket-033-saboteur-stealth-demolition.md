@@ -1,5 +1,7 @@
 # Ticket 33: Implement Saboteur Stealth Demolition Unit
 
+**Status:** RESOLVED
+
 **State:** closed
 **Labels:** dune3000, gameplay, combat
 
