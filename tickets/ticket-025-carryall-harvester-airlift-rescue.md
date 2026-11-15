@@ -1,6 +1,7 @@
 # Ticket 25: Implement Carryall Airlift Rescue of Harvesters from Sandworms (`GameState.step_carryall_rescue`)
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 **State:** closed
 **Labels:** dune3000
 

@@ -1,7 +1,8 @@
 # Ticket 037: Dynamic Spacing, Flocking, and Combat Formations
 
 **State:** closed
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 **Labels:** dune3000, ai, movement, formation
 
 ## Context

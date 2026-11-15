@@ -1,6 +1,7 @@
 # Ticket 10: Implement Unit Production Catalog and `GameState.train_unit`
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 
 **State:** closed
 **Priority:** high

@@ -1796,6 +1796,43 @@ class TestDune3000Engine(unittest.TestCase):
         self.assertEqual(trooper.hp, 0)
         self.assertNotIn(trooper, gs.units)
 
+    def test_index_html_and_engine_full_synchronization(self):
+        """Verify index.html, dune3000/engine.py, and all 40+ ticket files are synchronized."""
+        repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        engine_path = os.path.join(repo_root, "dune3000", "engine.py")
+        index_path = os.path.join(repo_root, "index.html")
+        tickets_dir = os.path.join(repo_root, "tickets")
+
+        with open(engine_path, "r", encoding="utf-8") as f:
+            engine_src = f.read()
+        with open(index_path, "r", encoding="utf-8") as f:
+            index_src = f.read()
+
+        for feature_token in (
+            "step_sandworm_ambush",
+            "COMMANDER_PROFILES",
+            "MethodicalMentat",
+            "AggressiveRaider",
+            "EconomicTurtler",
+            "WeatherFront",
+            "sandstorm",
+            "Deviator",
+            "FremenSietch",
+        ):
+            self.assertIn(feature_token, engine_src, f"Missing {feature_token} in dune3000/engine.py")
+            self.assertIn(feature_token, index_src, f"Missing {feature_token} in index.html")
+
+        ticket_files = sorted(
+            os.path.join(tickets_dir, fn)
+            for fn in os.listdir(tickets_dir)
+            if fn.startswith("ticket-") and fn.endswith(".md")
+        )
+        self.assertGreaterEqual(len(ticket_files), 40)
+        for tf in ticket_files:
+            with open(tf, "r", encoding="utf-8") as f:
+                t_content = f.read()
+            self.assertIn("COMPLETED / VERIFIED", t_content, f"Ticket {os.path.basename(tf)} missing COMPLETED / VERIFIED status")
+
 
 if __name__ == "__main__":
     unittest.main()

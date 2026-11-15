@@ -1,6 +1,7 @@
 # Ticket 17: Generate for Free Better Multi-Layer Procedural Graphics & Sprites (`procgen.py`)
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 
 **State:** closed
 **Labels:** user, dune3000, graphics

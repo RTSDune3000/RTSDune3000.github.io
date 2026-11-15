@@ -1,6 +1,7 @@
 # Ticket 025: Unit XP from Combat Experience
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 
 **State:** closed
 **Labels:** dune3000, gameplay, mechanics

@@ -1,6 +1,7 @@
 # Ticket 9: Implement Sandworm Hunting Step and Unit Devouring (`Sandworm.step`)
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 
 **State:** closed
 **Priority:** high

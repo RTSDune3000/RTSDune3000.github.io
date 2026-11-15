@@ -1,6 +1,7 @@
 # Ticket 22: Implement AI Skirmish Commander Step (`GameState.step_ai_commander`)
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 
 **State:** closed
 **Labels:** dune3000, ai, gameplay

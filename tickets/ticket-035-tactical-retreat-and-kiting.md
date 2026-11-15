@@ -1,7 +1,8 @@
 # Ticket 035: Tactical Retreat and Unit Kiting Mechanics
 
 **State:** closed
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 **Labels:** dune3000, ai, tactical, combat
 
 ## Context

@@ -1,6 +1,7 @@
 # Ticket 26: Implement CHOAM Starport Dynamic Pricing & Unit Delivery (`GameState.order_starport_unit`)
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 **State:** closed
 **Labels:** dune3000
 

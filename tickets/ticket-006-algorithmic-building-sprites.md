@@ -1,6 +1,7 @@
 # Ticket 6: Implement Algorithmic Building Sprite SVG Generator in `procgen.py`
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 
 - **State:** closed
 - **Labels:** feature, graphics

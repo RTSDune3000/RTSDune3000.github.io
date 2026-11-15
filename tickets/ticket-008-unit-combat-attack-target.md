@@ -1,6 +1,7 @@
 # Ticket 8: Implement Unit Combat Attack (`Unit.attack`)
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 
 **State:** closed
 **Priority:** high

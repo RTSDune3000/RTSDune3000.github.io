@@ -1,7 +1,8 @@
 # Ticket 034: Implement Sandworm Subterranean Ambush Mechanic (`GameState.step_sandworm_ambush`)
 
 **State:** closed
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 **Labels:** dune3000, gameplay, sandworm
 
 ## Acceptance Criteria

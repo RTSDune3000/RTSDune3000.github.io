@@ -1,7 +1,8 @@
 # Ticket 040: Dynamic Coriolis Weather Fronts and Sietch Infiltration Mechanics
 
 **State:** closed
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 **Labels:** dune3000, gameplay, weather, fremen, tactics
 
 ## Context

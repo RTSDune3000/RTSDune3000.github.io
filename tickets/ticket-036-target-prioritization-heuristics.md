@@ -1,7 +1,8 @@
 # Ticket 036: Target Prioritization and Focus Fire Heuristics
 
 **State:** closed
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 **Labels:** dune3000, ai, tactical, targeting
 
 ## Context

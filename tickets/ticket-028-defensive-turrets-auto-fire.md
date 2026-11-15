@@ -1,6 +1,7 @@
 # Ticket 28: Implement Base Defense Turrets (`GunTurret` and `RocketTurret`) Auto-Fire (`GameState.step_turrets`)
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 **State:** closed
 **Labels:** dune3000
 

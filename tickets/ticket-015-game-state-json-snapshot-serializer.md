@@ -1,6 +1,7 @@
 # Ticket 15: Implement JSON Snapshot Serializer (`GameState.to_dict`)
 
-**Status:** RESOLVED
+**Status:** COMPLETED / VERIFIED
+**Verified Files:** `dune3000/engine.py`, `index.html`, `tests/test_engine.py`
 
 **State:** closed
 **Priority:** medium
