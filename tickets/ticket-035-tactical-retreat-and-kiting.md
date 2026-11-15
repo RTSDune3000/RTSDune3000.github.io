@@ -1,6 +1,7 @@
 # Ticket 035: Tactical Retreat and Unit Kiting Mechanics
 
 **State:** closed
+**Status:** RESOLVED
 **Labels:** dune3000, ai, tactical, combat
 
 ## Context

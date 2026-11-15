@@ -1,6 +1,7 @@
 # Ticket 036: Target Prioritization and Focus Fire Heuristics
 
 **State:** closed
+**Status:** RESOLVED
 **Labels:** dune3000, ai, tactical, targeting
 
 ## Context

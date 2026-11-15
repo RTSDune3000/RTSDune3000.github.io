@@ -1,6 +1,7 @@
 # Ticket 038: AI Commander Profiles and Tactical Personalities
 
 **State:** closed
+**Status:** RESOLVED
 **Labels:** dune3000, ai, commander, skirmish
 
 ## Context

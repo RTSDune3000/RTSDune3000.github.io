@@ -1,6 +1,7 @@
 # Ticket 037: Dynamic Spacing, Flocking, and Combat Formations
 
 **State:** closed
+**Status:** RESOLVED
 **Labels:** dune3000, ai, movement, formation
 
 ## Context

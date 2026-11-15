@@ -1,6 +1,7 @@
 # Ticket 039: Sandworm Evasion, Seismic Tremor Reaction, and Harvester Escort
 
 **State:** closed
+**Status:** RESOLVED
 **Labels:** dune3000, ai, sandworm, economy
 
 ## Context
