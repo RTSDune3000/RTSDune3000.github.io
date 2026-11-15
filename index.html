@@ -4,16 +4,18 @@
   <meta charset="UTF-8">
   <title>Dune 3000 - Arrakis Tactical Command</title>
   <style>
-    * { box-sizing: border-box; }
-    body {
+    .dune-body {
+      box-sizing: border-box;
       background: #090a0f;
       color: #cbd5e1;
       font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
       margin: 0;
-      padding: 10px 16px;
+      padding: 10px 24px;
+      max-width: 100%;
       width: 100%;
     }
-    header {
+    .dune-header {
+      box-sizing: border-box;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -21,18 +23,19 @@
       border-bottom: 1px solid #1e293b;
       padding-bottom: 6px;
     }
-    .header-left {
+    .dune-header-left {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    h2 {
+    .dune-h2 {
       margin: 0;
       color: #f59e0b;
       letter-spacing: 1px;
       font-size: 19px;
     }
-    .badge {
+    .dune-badge {
+      box-sizing: border-box;
       background: #1e293b;
       color: #94a3b8;
       font-size: 11px;
@@ -40,12 +43,13 @@
       border: 1px solid #475569;
       border-radius: 3px;
     }
-    .header-actions {
+    .dune-header-actions {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    select.header-select {
+    .dune-header-select {
+      box-sizing: border-box;
       background: #141720;
       color: #e2e8f0;
       border: 1px solid #334155;
@@ -54,7 +58,8 @@
       font-size: 11px;
       border-radius: 3px;
     }
-    #hud {
+    .dune-hud {
+      box-sizing: border-box;
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
@@ -66,18 +71,19 @@
       margin-bottom: 8px;
       font-size: 12px;
     }
-    .hud-group {
+    .dune-hud-group {
       display: flex;
       align-items: center;
       gap: 5px;
     }
-    .hud-label { color: #64748b; font-size: 11px; text-transform: uppercase; }
-    .hud-stat { font-weight: bold; color: #38bdf8; }
-    .hud-house-atr { color: #60a5fa; font-weight: bold; }
-    .hud-house-har { color: #f87171; font-weight: bold; }
+    .dune-hud-label { color: #64748b; font-size: 11px; text-transform: uppercase; }
+    .dune-hud-stat { font-weight: bold; color: #38bdf8; }
+    .dune-hud-house-atr { color: #60a5fa; font-weight: bold; }
+    .dune-hud-house-har { color: #f87171; font-weight: bold; }
 
     /* TACTICAL ADVISOR & NEEDED HIGHLIGHTS */
-    #advisor-banner {
+    .dune-advisor-banner {
+      box-sizing: border-box;
       background: #141c2b;
       border: 1px solid #29384d;
       border-left: 4px solid #f59e0b;
@@ -89,7 +95,8 @@
       margin-bottom: 8px;
       border-radius: 2px;
     }
-    .advisor-tag {
+    .dune-advisor-tag {
+      box-sizing: border-box;
       background: #b45309;
       color: #fff;
       font-size: 10px;
@@ -98,7 +105,7 @@
       font-weight: bold;
       letter-spacing: 0.5px;
     }
-    .advisor-text {
+    .dune-advisor-text {
       color: #fde68a;
       font-weight: 500;
     }
@@ -118,29 +125,32 @@
         border-color: #f59e0b;
       }
     }
-    button.btn-needed {
+    .dune-btn-needed, .btn-needed {
       animation: pulseNeeded 1.2s infinite ease-in-out !important;
       border-color: #f59e0b !important;
       color: #fef08a !important;
       font-weight: bold;
     }
-    .tray-tab.tab-needed {
+    .dune-tray-tab.tab-needed, .tray-tab.tab-needed {
       color: #f59e0b !important;
       border-bottom: 2px dashed #f59e0b !important;
     }
 
     /* STRUCTURED PRODUCTION UI TABS & TRAY */
-    #ui-container {
+    .dune-ui-container {
+      box-sizing: border-box;
       background: #121622;
       border: 1px solid #1e293b;
       margin-bottom: 10px;
     }
-    #tray-tabs {
+    .dune-tray-tabs {
+      box-sizing: border-box;
       display: flex;
       background: #0b0e17;
       border-bottom: 1px solid #1e293b;
     }
-    .tray-tab {
+    .dune-tray-tab, .tray-tab {
+      box-sizing: border-box;
       background: transparent;
       border: none;
       border-right: 1px solid #1e293b;
@@ -153,27 +163,29 @@
       cursor: pointer;
       transition: all 0.15s ease;
     }
-    .tray-tab:hover {
+    .dune-tray-tab:hover, .tray-tab:hover {
       background: #182030;
       color: #e2e8f0;
     }
-    .tray-tab.active {
+    .dune-tray-tab.active, .tray-tab.active {
       background: #1a2234;
       color: #f59e0b;
       border-bottom: 2px solid #f59e0b;
     }
-    .tab-content {
+    .dune-tab-content, .tab-content {
+      box-sizing: border-box;
       display: none;
       padding: 8px 12px;
       gap: 6px;
       flex-wrap: wrap;
       align-items: center;
     }
-    .tab-content.active {
+    .dune-tab-content.active, .tab-content.active {
       display: flex;
     }
 
-    button.btn-prod {
+    .dune-btn-prod, .btn-prod {
+      box-sizing: border-box;
       background: #182030;
       color: #e2e8f0;
       border: 1px solid #2d3748;
@@ -185,49 +197,50 @@
       user-select: none;
       border-radius: 2px;
     }
-    button.btn-prod:hover:not(:disabled) {
+    .dune-btn-prod:hover:not(:disabled), .btn-prod:hover:not(:disabled) {
       background: #253248;
       border-color: #60a5fa;
       color: #ffffff;
     }
-    button.btn-prod.active {
+    .dune-btn-prod.active, .btn-prod.active {
       background: #1d4ed8;
       border-color: #93c5fd;
       color: #ffffff;
       box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
     }
-    button.btn-prod:disabled,
-    button.btn-prod.btn-locked {
+    .dune-btn-prod:disabled,
+    .dune-btn-prod.btn-locked,
+    .btn-prod:disabled,
+    .btn-prod.btn-locked {
       background: #0d111a;
       color: #475569;
       border-color: #1e293b;
       cursor: not-allowed;
       opacity: 0.6;
     }
-    button.btn-special {
+    .dune-btn-special, .btn-special {
       border-color: #f59e0b;
       color: #fbbf24;
     }
-    button.btn-special:hover:not(:disabled) {
+    .dune-btn-special:hover:not(:disabled), .btn-special:hover:not(:disabled) {
       background: #78350f;
     }
 
-    #main-area {
+    .dune-main-area {
+      box-sizing: border-box;
       display: flex;
       gap: 12px;
       align-items: flex-start;
       flex-wrap: wrap;
     }
-    #viewport-wrapper {
-      flex: 1 1 800px;
-      min-width: 0;
-    }
-    #viewport-wrapper {
+    .dune-viewport-wrapper {
+      box-sizing: border-box;
       flex: 1 1 0;
       min-width: 0;
       width: 100%;
     }
-    #canvas-container {
+    .dune-canvas-container {
+      box-sizing: border-box;
       position: relative;
       border: 2px solid #334155;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
@@ -235,13 +248,14 @@
       width: 100%;
       max-width: 100%;
       aspect-ratio: 54 / 30;
-      overflow: hidden; /* Avoid all scrollbars completely */
+      overflow: hidden;
       user-select: none;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-    canvas#gameCanvas {
+    .dune-game-canvas {
+      box-sizing: border-box;
       display: block;
       width: 100%;
       height: 100%;
@@ -251,19 +265,22 @@
       image-rendering: crisp-edges;
       cursor: crosshair;
     }
-    #sidebar {
+    .dune-sidebar {
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       gap: 10px;
       width: 310px;
       flex-shrink: 0;
     }
-    .panel-box {
+    .dune-panel-box {
+      box-sizing: border-box;
       background: #10141d;
       border: 1px solid #1e293b;
       padding: 8px 10px;
     }
-    .panel-header {
+    .dune-panel-header {
+      box-sizing: border-box;
       font-size: 11px;
       color: #94a3b8;
       text-transform: uppercase;
@@ -275,14 +292,16 @@
       justify-content: space-between;
       align-items: center;
     }
-    #radar-canvas {
+    .dune-radar-canvas {
+      box-sizing: border-box;
       display: block;
       margin: 0 auto;
       border: 1px solid #334155;
       background: #060911;
       cursor: pointer;
     }
-    #log-panel {
+    .dune-log-panel {
+      box-sizing: border-box;
       height: 440px;
       background: #080a10;
       border: 1px solid #182030;
@@ -291,154 +310,155 @@
       font-size: 11px;
       line-height: 1.45;
     }
-    .log-entry {
+    .dune-log-entry, .log-entry {
+      box-sizing: border-box;
       margin-bottom: 3px;
       border-bottom: 1px solid #121824;
       padding-bottom: 2px;
       color: #94a3b8;
     }
-    .log-entry.log-combat { color: #f87171; }
-    .log-entry.log-economy { color: #fbbf24; }
-    .log-entry.log-worm { color: #fb923c; font-weight: bold; }
-    .log-entry.log-sys { color: #38bdf8; }
-    .log-entry.log-repair { color: #4ade80; }
-    .log-entry.log-air { color: #67e8f9; }
+    .dune-log-entry.log-combat, .log-entry.log-combat { color: #f87171; }
+    .dune-log-entry.log-economy, .log-entry.log-economy { color: #fbbf24; }
+    .dune-log-entry.log-worm, .log-entry.log-worm { color: #fb923c; font-weight: bold; }
+    .dune-log-entry.log-sys, .log-entry.log-sys { color: #38bdf8; }
+    .dune-log-entry.log-repair, .log-entry.log-repair { color: #4ade80; }
+    .dune-log-entry.log-air, .log-entry.log-air { color: #67e8f9; }
   </style>
 </head>
-<body>
-  <header>
-    <div class="header-left">
-      <h2>Dune 3000: Arrakis Tactical Command</h2>
-      <span class="badge">Multi-Tier Aviation, Tank Airlift Medevac & Smart Tactical Advisor v5.5</span>
+<body class="dune-body">
+  <header class="dune-header">
+    <div class="dune-header-left">
+      <h2 class="dune-h2">Dune 3000: Arrakis Tactical Command</h2>
+      <span class="dune-badge">Multi-Tier Aviation, Tank Airlift Medevac & Smart Tactical Advisor v5.5</span>
     </div>
-    <div class="header-actions">
-      <span class="hud-label">Difficulty:</span>
-      <select id="difficulty-select" class="header-select" onchange="setDifficulty(this.value)">
+    <div class="dune-header-actions">
+      <span class="dune-hud-label">Difficulty:</span>
+      <select id="difficulty-select" class="dune-header-select" onchange="setDifficulty(this.value)">
         <option value="easy">Easy (2500 Credits, 1 Calm Worm)</option>
         <option value="medium" selected>Medium (1200 Credits, Standard)</option>
         <option value="hard">Hard (600 Credits, 2 Ferocious Worms)</option>
       </select>
-      <button id="btn-toggle-select" class="btn-prod" onclick="toggleSelection()">Select: ON</button>
-      <button id="btn-clear-select" class="btn-prod" onclick="clearSelection()">Deselect All</button>
-      <button class="btn-prod btn-special" onclick="restartMission()">Restart Mission</button>
+      <button id="btn-toggle-select" class="dune-btn-prod btn-prod" onclick="toggleSelection()">Select: ON</button>
+      <button id="btn-clear-select" class="dune-btn-prod btn-prod" onclick="clearSelection()">Deselect All</button>
+      <button class="dune-btn-prod btn-prod dune-btn-special btn-special" onclick="restartMission()">Restart Mission</button>
     </div>
   </header>
 
-  <div id="hud">
-    <div class="hud-group">
-      <span class="hud-label">Conflict:</span>
-      <span class="hud-house-atr">Atreides</span> vs <span class="hud-house-har">Harkonnen</span>
+  <div id="hud" class="dune-hud">
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Conflict:</span>
+      <span class="dune-hud-house-atr">Atreides</span> vs <span class="dune-hud-house-har">Harkonnen</span>
     </div>
-    <div class="hud-group">
-      <span class="hud-label">Credits:</span>
-      <span id="hud-credits" class="hud-stat">1200</span> / <span id="hud-capacity">2000</span>
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Credits:</span>
+      <span id="hud-credits" class="dune-hud-stat">1200</span> / <span id="hud-capacity">2000</span>
     </div>
-    <div class="hud-group">
-      <span class="hud-label">Power:</span>
-      <span id="hud-power" class="hud-stat">100 / 30 (100%)</span>
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Power:</span>
+      <span id="hud-power" class="dune-hud-stat">100 / 30 (100%)</span>
     </div>
-    <div class="hud-group">
-      <span class="hud-label">Forces:</span>
-      <span id="hud-units" class="hud-stat">3 Units | 4 Structures</span>
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Forces:</span>
+      <span id="hud-units" class="dune-hud-stat">3 Units | 4 Structures</span>
     </div>
-    <div class="hud-group">
-      <span class="hud-label">Cycle:</span>
-      <span id="hud-tick" class="hud-stat">0</span>
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Cycle:</span>
+      <span id="hud-tick" class="dune-hud-stat">0</span>
     </div>
-    <div class="hud-group">
-      <span class="hud-label">Condition:</span>
-      <span id="hud-status" class="hud-stat" style="color:#22c55e">Battle Active</span>
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Condition:</span>
+      <span id="hud-status" class="dune-hud-stat" style="color:#22c55e">Battle Active</span>
     </div>
-    <div class="hud-group">
-      <span class="hud-label">Opponent:</span>
-      <span id="hud-opponent" class="hud-stat">Script AI</span>
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Opponent:</span>
+      <span id="hud-opponent" class="dune-hud-stat">Script AI</span>
     </div>
-    <div class="hud-group">
-      <span class="hud-label">Doctrine:</span>
-      <span id="hud-doctrine" class="hud-stat" style="color:#38bdf8">Methodical Mentat</span>
+    <div class="dune-hud-group">
+      <span class="dune-hud-label">Doctrine:</span>
+      <span id="hud-doctrine" class="dune-hud-stat" style="color:#38bdf8">Methodical Mentat</span>
     </div>
   </div>
 
   <!-- PROMINENT TACTICAL ADVISOR -->
-  <div id="advisor-banner">
-    <span id="advisor-tag" class="advisor-tag">TACTICAL ADVISOR</span>
-    <span id="advisor-text" class="advisor-text">All systems operating within normal parameters.</span>
+  <div id="advisor-banner" class="dune-advisor-banner">
+    <span id="advisor-tag" class="dune-advisor-tag">TACTICAL ADVISOR</span>
+    <span id="advisor-text" class="dune-advisor-text">All systems operating within normal parameters.</span>
   </div>
 
   <!-- STRUCTURED PRODUCTION TRAY WITH PREREQUISITE GATING -->
-  <div id="ui-container">
-    <div id="tray-tabs">
-      <button class="tray-tab active" onclick="switchTab('structures')">Base Structures</button>
-      <button class="tray-tab" onclick="switchTab('infantry')">Infantry</button>
-      <button class="tray-tab" onclick="switchTab('vehicles')">Motor Pool</button>
-      <button class="tray-tab" onclick="switchTab('airwing')">Air Wing</button>
-      <button class="tray-tab" onclick="switchTab('special')">Special Operations</button>
-      <button class="tray-tab" onclick="switchTab('tactical')">Tactical Commands</button>
+  <div id="ui-container" class="dune-ui-container">
+    <div id="tray-tabs" class="dune-tray-tabs">
+      <button class="dune-tray-tab tray-tab active" onclick="switchTab('structures')">Base Structures</button>
+      <button class="dune-tray-tab tray-tab" onclick="switchTab('infantry')">Infantry</button>
+      <button class="dune-tray-tab tray-tab" onclick="switchTab('vehicles')">Motor Pool</button>
+      <button class="dune-tray-tab tray-tab" onclick="switchTab('airwing')">Air Wing</button>
+      <button class="dune-tray-tab tray-tab" onclick="switchTab('special')">Special Operations</button>
+      <button class="dune-tray-tab tray-tab" onclick="switchTab('tactical')">Tactical Commands</button>
     </div>
 
     <!-- TAB: STRUCTURES -->
-    <div id="tab-structures" class="tab-content active">
-      <button id="btn-build-concrete" class="btn-prod" onclick="setMode('Concrete')" data-req="ConstructionYard">Concrete (50)</button>
-      <button id="btn-build-windtrap" class="btn-prod" onclick="setMode('WindTrap')" data-req="ConstructionYard">WindTrap (200)</button>
-      <button id="btn-build-refinery" class="btn-prod" onclick="setMode('Refinery')" data-req="WindTrap">Refinery (400)</button>
-      <button id="btn-build-barracks" class="btn-prod" onclick="setMode('Barracks')" data-req="WindTrap">Barracks (250)</button>
-      <button id="btn-build-silo" class="btn-prod" onclick="setMode('Silo')" data-req="Refinery">Silo (150)</button>
-      <button id="btn-build-outpost" class="btn-prod" onclick="setMode('Outpost')" data-req="Refinery">Outpost Radar (300)</button>
-      <button id="btn-build-lightfactory" class="btn-prod" onclick="setMode('LightFactory')" data-req="Refinery">Light Factory (400)</button>
-      <button id="btn-build-heavyfactory" class="btn-prod" onclick="setMode('HeavyFactory')" data-req="Refinery,Outpost">Heavy Factory (600)</button>
-      <button id="btn-build-hightech" class="btn-prod" onclick="setMode('HighTech')" data-req="HeavyFactory,Outpost">High-Tech Pad (500)</button>
-      <button id="btn-build-repair" class="btn-prod" onclick="setMode('RepairFacility')" data-req="HeavyFactory">Repair Facility (350)</button>
-      <button id="btn-build-gunturret" class="btn-prod" onclick="setMode('GunTurret')" data-req="Barracks">Gun Turret (250)</button>
-      <button id="btn-build-rocketturret" class="btn-prod" onclick="setMode('RocketTurret')" data-req="Outpost">Rocket Turret (350)</button>
-      <button id="btn-build-airdefense" class="btn-prod" onclick="setMode('AirDefense')" data-req="Outpost,HighTech">SAM Air Defense (350)</button>
-      <button id="btn-build-starport" class="btn-prod" onclick="setMode('Starport')" data-req="HeavyFactory,Outpost">CHOAM Starport (500)</button>
-      <button id="btn-build-palace" class="btn-prod" onclick="setMode('Palace')" data-req="HeavyFactory,Outpost,HighTech">Palace Fortress (800)</button>
+    <div id="tab-structures" class="dune-tab-content tab-content active">
+      <button id="btn-build-concrete" class="dune-btn-prod btn-prod" onclick="setMode('Concrete')" data-req="ConstructionYard">Concrete (50)</button>
+      <button id="btn-build-windtrap" class="dune-btn-prod btn-prod" onclick="setMode('WindTrap')" data-req="ConstructionYard">WindTrap (200)</button>
+      <button id="btn-build-refinery" class="dune-btn-prod btn-prod" onclick="setMode('Refinery')" data-req="WindTrap">Refinery (400)</button>
+      <button id="btn-build-barracks" class="dune-btn-prod btn-prod" onclick="setMode('Barracks')" data-req="WindTrap">Barracks (250)</button>
+      <button id="btn-build-silo" class="dune-btn-prod btn-prod" onclick="setMode('Silo')" data-req="Refinery">Silo (150)</button>
+      <button id="btn-build-outpost" class="dune-btn-prod btn-prod" onclick="setMode('Outpost')" data-req="Refinery">Outpost Radar (300)</button>
+      <button id="btn-build-lightfactory" class="dune-btn-prod btn-prod" onclick="setMode('LightFactory')" data-req="Refinery">Light Factory (400)</button>
+      <button id="btn-build-heavyfactory" class="dune-btn-prod btn-prod" onclick="setMode('HeavyFactory')" data-req="Refinery,Outpost">Heavy Factory (600)</button>
+      <button id="btn-build-hightech" class="dune-btn-prod btn-prod" onclick="setMode('HighTech')" data-req="HeavyFactory,Outpost">High-Tech Pad (500)</button>
+      <button id="btn-build-repair" class="dune-btn-prod btn-prod" onclick="setMode('RepairFacility')" data-req="HeavyFactory">Repair Facility (350)</button>
+      <button id="btn-build-gunturret" class="dune-btn-prod btn-prod" onclick="setMode('GunTurret')" data-req="Barracks">Gun Turret (250)</button>
+      <button id="btn-build-rocketturret" class="dune-btn-prod btn-prod" onclick="setMode('RocketTurret')" data-req="Outpost">Rocket Turret (350)</button>
+      <button id="btn-build-airdefense" class="dune-btn-prod btn-prod" onclick="setMode('AirDefense')" data-req="Outpost,HighTech">SAM Air Defense (350)</button>
+      <button id="btn-build-starport" class="dune-btn-prod btn-prod" onclick="setMode('Starport')" data-req="HeavyFactory,Outpost">CHOAM Starport (500)</button>
+      <button id="btn-build-palace" class="dune-btn-prod btn-prod" onclick="setMode('Palace')" data-req="HeavyFactory,Outpost,HighTech">Palace Fortress (800)</button>
     </div>
 
     <!-- TAB: INFANTRY -->
-    <div id="tab-infantry" class="tab-content">
-      <button id="btn-train-infantry" class="btn-prod" onclick="trainUnit('LightInfantry', 100)" data-req="Barracks">Light Infantry (100)</button>
-      <button id="btn-train-rockettrooper" class="btn-prod" onclick="trainUnit('RocketTrooper', 180)" data-req="Barracks,Outpost">Rocket Trooper (180)</button>
-      <button id="btn-train-engineer" class="btn-prod" onclick="trainUnit('Engineer', 200)" data-req="Barracks,Outpost">Field Engineer (200)</button>
-      <button id="btn-train-sardaukar" class="btn-prod" onclick="trainUnit('Sardaukar', 300)" data-req="Barracks,Starport">Imperial Sardaukar (300)</button>
-      <button id="btn-train-fremen" class="btn-prod" onclick="trainUnit('FremenWarrior', 220)" data-req="Barracks,Palace">Fedaykin Warrior (220)</button>
-      <button id="btn-train-saboteur" class="btn-prod" onclick="trainUnit('Saboteur', 250)" data-req="Palace">Saboteur (250)</button>
+    <div id="tab-infantry" class="dune-tab-content tab-content">
+      <button id="btn-train-infantry" class="dune-btn-prod btn-prod" onclick="trainUnit('LightInfantry', 100)" data-req="Barracks">Light Infantry (100)</button>
+      <button id="btn-train-rockettrooper" class="dune-btn-prod btn-prod" onclick="trainUnit('RocketTrooper', 180)" data-req="Barracks,Outpost">Rocket Trooper (180)</button>
+      <button id="btn-train-engineer" class="dune-btn-prod btn-prod" onclick="trainUnit('Engineer', 200)" data-req="Barracks,Outpost">Field Engineer (200)</button>
+      <button id="btn-train-sardaukar" class="dune-btn-prod btn-prod" onclick="trainUnit('Sardaukar', 300)" data-req="Barracks,Starport">Imperial Sardaukar (300)</button>
+      <button id="btn-train-fremen" class="dune-btn-prod btn-prod" onclick="trainUnit('FremenWarrior', 220)" data-req="Barracks,Palace">Fedaykin Warrior (220)</button>
+      <button id="btn-train-saboteur" class="dune-btn-prod btn-prod" onclick="trainUnit('Saboteur', 250)" data-req="Palace">Saboteur (250)</button>
     </div>
 
     <!-- TAB: VEHICLES -->
-    <div id="tab-vehicles" class="tab-content">
-      <button id="btn-train-harvester" class="btn-prod" onclick="trainUnit('Harvester', 400)" data-req="Refinery">Harvester (400)</button>
-      <button id="btn-train-trike" class="btn-prod" onclick="trainUnit('Trike', 150)" data-req="LightFactory|HeavyFactory">Scout Trike (150)</button>
-      <button id="btn-train-quad" class="btn-prod" onclick="trainUnit('Quad', 200)" data-req="LightFactory|HeavyFactory">Assault Quad (200)</button>
-      <button id="btn-train-tank" class="btn-prod" onclick="trainUnit('CombatTank', 300)" data-req="HeavyFactory">Combat Tank (300)</button>
-      <button id="btn-train-siege" class="btn-prod" onclick="trainUnit('SiegeTank', 450)" data-req="HeavyFactory,Outpost">Siege Howitzer Tank (450)</button>
-      <button id="btn-train-missile" class="btn-prod" onclick="trainUnit('MissileTank', 400)" data-req="HeavyFactory,Outpost">Missile Tank (400)</button>
-      <button id="btn-train-sonic" class="btn-prod btn-special" onclick="trainUnit('SonicTank', 600)" data-req="Palace">Atreides Sonic Tank (600)</button>
+    <div id="tab-vehicles" class="dune-tab-content tab-content">
+      <button id="btn-train-harvester" class="dune-btn-prod btn-prod" onclick="trainUnit('Harvester', 400)" data-req="Refinery">Harvester (400)</button>
+      <button id="btn-train-trike" class="dune-btn-prod btn-prod" onclick="trainUnit('Trike', 150)" data-req="LightFactory|HeavyFactory">Scout Trike (150)</button>
+      <button id="btn-train-quad" class="dune-btn-prod btn-prod" onclick="trainUnit('Quad', 200)" data-req="LightFactory|HeavyFactory">Assault Quad (200)</button>
+      <button id="btn-train-tank" class="dune-btn-prod btn-prod" onclick="trainUnit('CombatTank', 300)" data-req="HeavyFactory">Combat Tank (300)</button>
+      <button id="btn-train-siege" class="dune-btn-prod btn-prod" onclick="trainUnit('SiegeTank', 450)" data-req="HeavyFactory,Outpost">Siege Howitzer Tank (450)</button>
+      <button id="btn-train-missile" class="dune-btn-prod btn-prod" onclick="trainUnit('MissileTank', 400)" data-req="HeavyFactory,Outpost">Missile Tank (400)</button>
+      <button id="btn-train-sonic" class="dune-btn-prod btn-prod dune-btn-special btn-special" onclick="trainUnit('SonicTank', 600)" data-req="Palace">Atreides Sonic Tank (600)</button>
     </div>
 
     <!-- TAB: AIR WING (Diverse Aviation Fleet) -->
-    <div id="tab-airwing" class="tab-content">
-      <button id="btn-train-ornithopter" class="btn-prod" onclick="trainUnit('Ornithopter', 350)" data-req="HighTech">Ornithopter Strike Scout (350)</button>
-      <button id="btn-train-gunship" class="btn-prod" onclick="trainUnit('Gunship', 500)" data-req="HighTech,HeavyFactory">Heavy Attack Gunship (500)</button>
-      <button id="btn-train-bomber" class="btn-prod" onclick="trainUnit('Bomber', 600)" data-req="HighTech,Palace">Strategic Stealth Bomber (600)</button>
-      <button id="btn-deploy-carryall" class="btn-prod" onclick="deployCarryall()" data-req="HighTech">Dispatch Carryall Medevac / Cargo</button>
+    <div id="tab-airwing" class="dune-tab-content tab-content">
+      <button id="btn-train-ornithopter" class="dune-btn-prod btn-prod" onclick="trainUnit('Ornithopter', 350)" data-req="HighTech">Ornithopter Strike Scout (350)</button>
+      <button id="btn-train-gunship" class="dune-btn-prod btn-prod" onclick="trainUnit('Gunship', 500)" data-req="HighTech,HeavyFactory">Heavy Attack Gunship (500)</button>
+      <button id="btn-train-bomber" class="dune-btn-prod btn-prod" onclick="trainUnit('Bomber', 600)" data-req="HighTech,Palace">Strategic Stealth Bomber (600)</button>
+      <button id="btn-deploy-carryall" class="dune-btn-prod btn-prod" onclick="deployCarryall()" data-req="HighTech">Dispatch Carryall Medevac / Cargo</button>
     </div>
 
     <!-- TAB: SPECIAL & STARPORT -->
-    <div id="tab-special" class="tab-content">
-      <button id="btn-starport-order" class="btn-prod" onclick="orderStarportUnit()" data-req="Starport">Order CHOAM Market Shipment</button>
-      <button id="btn-fire-deathhand" class="btn-prod btn-special" onclick="setMode('DeathHand')" data-req="Palace">Fire Palace Death Hand Strike</button>
-      <button id="btn-sell-mode" class="btn-prod" onclick="setMode('sell')">Sell Structure (50% Refund)</button>
+    <div id="tab-special" class="dune-tab-content tab-content">
+      <button id="btn-starport-order" class="dune-btn-prod btn-prod" onclick="orderStarportUnit()" data-req="Starport">Order CHOAM Market Shipment</button>
+      <button id="btn-fire-deathhand" class="dune-btn-prod btn-prod dune-btn-special btn-special" onclick="setMode('DeathHand')" data-req="Palace">Fire Palace Death Hand Strike</button>
+      <button id="btn-sell-mode" class="dune-btn-prod btn-prod" onclick="setMode('sell')">Sell Structure (50% Refund)</button>
     </div>
 
     <!-- TAB: TACTICAL & ENGINE CONTROLS -->
-    <div id="tab-tactical" class="tab-content">
-      <button id="btn-select-mode" class="btn-prod active" onclick="setMode('select')">Select / Marquee Box</button>
-      <button id="btn-step-tick" class="btn-prod" onclick="stepTick()">Step Tick</button>
-      <button id="btn-autoplay" class="btn-prod" onclick="cycleAutoplayMode()">Auto-Play: OFF</button>
-      <button id="btn-ai-profile" class="btn-prod" onclick="cycleAiCommanderProfile()">Doctrine: Methodical Mentat</button>
-      <button id="btn-gpu" class="btn-prod btn-special" onclick="toggleGpuMode()" title="Harkonnen commander driven by local GPU LLM; fallback to Script AI if busy">Play against GPU: OFF</button>
-      <button id="btn-sound" class="btn-prod" onclick="toggleSound()">Sound: ON</button>
+    <div id="tab-tactical" class="dune-tab-content tab-content">
+      <button id="btn-select-mode" class="dune-btn-prod btn-prod active" onclick="setMode('select')">Select / Marquee Box</button>
+      <button id="btn-step-tick" class="dune-btn-prod btn-prod" onclick="stepTick()">Step Tick</button>
+      <button id="btn-autoplay" class="dune-btn-prod btn-prod" onclick="cycleAutoplayMode()">Auto-Play: OFF</button>
+      <button id="btn-ai-profile" class="dune-btn-prod btn-prod" onclick="cycleAiCommanderProfile()">Doctrine: Methodical Mentat</button>
+      <button id="btn-gpu" class="dune-btn-prod btn-prod dune-btn-special btn-special" onclick="toggleGpuMode()" title="Harkonnen commander driven by local GPU LLM; fallback to Script AI if busy">Play against GPU: OFF</button>
+      <button id="btn-sound" class="dune-btn-prod btn-prod" onclick="toggleSound()">Sound: ON</button>
     </div>
   </div>
 
@@ -450,32 +470,32 @@
       <span id="inspect-info" style="color: #94a3b8;">Status: -</span>
     </div>
     <div style="display:flex; align-items:center; gap: 8px;">
-      <button id="inspect-btn-repair" class="btn-prod" style="padding: 3px 8px; font-size: 11px;" onclick="inspectAction('repair')">Repair Structure</button>
-      <button id="inspect-btn-sell" class="btn-prod" style="padding: 3px 8px; font-size: 11px;" onclick="inspectAction('sell')">Sell Structure</button>
-      <button class="btn-prod" style="padding: 3px 8px; font-size: 11px;" onclick="clearSelection()">Dismiss</button>
+      <button id="inspect-btn-repair" class="dune-btn-prod btn-prod" style="padding: 3px 8px; font-size: 11px;" onclick="inspectAction('repair')">Repair Structure</button>
+      <button id="inspect-btn-sell" class="dune-btn-prod btn-prod" style="padding: 3px 8px; font-size: 11px;" onclick="inspectAction('sell')">Sell Structure</button>
+      <button class="dune-btn-prod btn-prod" style="padding: 3px 8px; font-size: 11px;" onclick="clearSelection()">Dismiss</button>
     </div>
   </div>
 
-  <div id="main-area">
-    <div id="viewport-wrapper">
-      <div id="canvas-container">
-        <canvas id="gameCanvas" width="1512" height="840"></canvas>
+  <div id="main-area" class="dune-main-area">
+    <div id="viewport-wrapper" class="dune-viewport-wrapper">
+      <div id="canvas-container" class="dune-canvas-container">
+        <canvas id="gameCanvas" class="dune-game-canvas" width="1512" height="840"></canvas>
       </div>
     </div>
-    <div id="sidebar">
-      <div class="panel-box">
-        <div class="panel-header">
+    <div id="sidebar" class="dune-sidebar">
+      <div class="dune-panel-box">
+        <div class="dune-panel-header">
           <span>Arrakis Radar (54x30)</span>
           <span id="radar-status" style="color:#22c55e">ONLINE</span>
         </div>
-        <canvas id="radar-canvas" width="288" height="160"></canvas>
+        <canvas id="radar-canvas" class="dune-radar-canvas" width="288" height="160"></canvas>
       </div>
-      <div class="panel-box">
-        <div class="panel-header">
+      <div class="dune-panel-box">
+        <div class="dune-panel-header">
           <span>Arrakis Command Log</span>
           <span style="font-size:10px; color:#64748b">Live Battle Telemetry</span>
         </div>
-        <div id="log-panel"></div>
+        <div id="log-panel" class="dune-log-panel"></div>
       </div>
     </div>
   </div>
@@ -1287,7 +1307,7 @@
     }
 
     function updatePrerequisiteButtons() {
-      document.querySelectorAll('button[data-req]').forEach(btn => {
+      document.querySelectorAll('.dune-btn-prod[data-req]').forEach(btn => {
         const reqs = btn.getAttribute('data-req');
         const allowed = checkPrerequisites('Atreides', reqs);
         btn.disabled = !allowed;
@@ -1557,8 +1577,8 @@
       initAudio();
       playSound('click');
       mode = newMode;
-      document.querySelectorAll('#ui-container button').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.querySelector(`button[onclick*="'${newMode}'"]`);
+      document.querySelectorAll('.dune-ui-container .dune-btn-prod').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.querySelector(`.dune-btn-prod[onclick*="'${newMode}'"]`);
       if (activeBtn) activeBtn.classList.add('active');
       logMsg(`Operational mode set to: ${newMode}. Click map to execute.`, 'sys');
     }
@@ -2186,13 +2206,13 @@
       if (!btn) return;
       if (autoplayMode === 'both') {
         btn.textContent = 'Auto-Play: Spectator (Both AI)';
-        btn.className = 'btn-prod active';
+        btn.className = 'dune-btn-prod btn-prod active';
       } else if (autoplayMode === 'opponent') {
         btn.textContent = 'Auto-Play: Player vs AI';
-        btn.className = 'btn-prod';
+        btn.className = 'dune-btn-prod btn-prod';
       } else {
         btn.textContent = 'Auto-Play: OFF';
-        btn.className = 'btn-prod';
+        btn.className = 'dune-btn-prod btn-prod';
       }
       const oppLabel = document.getElementById('hud-opponent');
       if (oppLabel) {
@@ -4096,7 +4116,7 @@
     function logMsg(msg, category = 'sys') {
       const panel = document.getElementById('log-panel');
       const entry = document.createElement('div');
-      entry.className = `log-entry log-${category}`;
+      entry.className = `dune-log-entry log-entry log-${category}`;
       const mm = Math.floor(tickCount / 60).toString().padStart(2, '0');
       const ss = (tickCount % 60).toString().padStart(2, '0');
       entry.textContent = `[T+${mm}:${ss}] ${msg}`;
